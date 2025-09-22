@@ -54,13 +54,13 @@ void freeAll(temperatura *f)
 
 temperatura *delTemp(temperatura *f, float t)
 {
-    temperatura *aux, *aux2;
-
-    if (f = NULL)
+    if (f == NULL)
     {
-        printf("List vazia");
+        printf("List vazia\n");
         return f;
     }
+
+    temperatura *aux, *aux2;
 
     if (f->temp == t)
     {
@@ -88,32 +88,90 @@ temperatura *delTemp(temperatura *f, float t)
 
     if (aux->next == NULL)
     {
-        aux2->next == NULL;
+        aux2->next = NULL;
         free(aux);
         return f;
     }
-    aux2->next=aux->next;
+    aux2->next = aux->next;
     free(aux);
     return f;
 }
 
+temperatura *inserirEmPosicao(temperatura *f, float t, int pos)
+{
+    if (f == NULL)
+    {
+        printf("List vazia\n");
+        return f;
+    }
+
+    temperatura *p, *aux_ant, *aux_pos;
+
+    p = (temperatura *)malloc(sizeof(temperatura));
+    p->temp = t;
+    p->next = NULL;
+
+    if (pos == 1)
+    {
+        p->next = f;
+        return p;
+    }
+
+    aux_ant = f;
+    int i = 1;
+    while (aux_ant->next != NULL && i < pos - 1)
+    {
+        aux_ant = aux_ant->next;
+        i++;
+    }
+
+    aux_pos = aux_ant->next;
+
+    p->next = aux_pos;
+    aux_ant->next = p;
+
+    return f;
+}
+
+// temperatura *inserirAntes(temperatura *f, float t, float taux)
+// {
+//     if (f == NULL)
+//     {
+//         printf("List vazia\n");
+//         return f;
+//     }
+//     // 2- Antes ou depois de um valor
+//     // CUIDADOS:
+//     //     - Antes do primeiro
+//     //     - Depois do ultimo
+// };
+
+// temperatura *inserirDepois(temperatura *f, float t, float taux)
+// {
+//     if (f == NULL)
+//     {
+//         printf("List vazia\n");
+//         return f;
+//     }
+// };
+
 int main()
 {
     temperatura *first = NULL, *aux;
-    float t;
-    int op = 1;
+    float t, taux;
+    int op = 1, pos;
 
     while (op != 0)
     {
-        printf("1. Inserir\n2. Consultar\n3. Listar\n4. Excluir\n0. Sair\n");
+        printf("1. Inserir\n2. Consultar\n3. Listar\n4. Excluir\n5. Inserir em posição\n6. Inserir antes\n7. Inserir antes\n0. Sair\n");
         scanf("%d", &op);
 
         switch (op)
         {
-        case 1:
+        case 1: // Inserir
             first = insereTemp(first);
             break;
-        case 2:
+        case 2: // Consultar
             printf("Temperatura: ");
             scanf("%f", &t);
             aux = printTemp(first, t);
@@ -122,25 +180,37 @@ int main()
             else
                 printf("A temperatura está na lista!\n");
             break;
-        case 3:
+        case 3: // Listar
             printAll(first);
             break;
-        case 4:
+        case 4: // Excluir
             printf("Temperatura: ");
             scanf("%f", &t);
             first = delTemp(first, t);
+            break;
+        case 5: // Inserir em posição
+            printf("Temperatura: ");
+            scanf("%f", &t);
+            printf("Posição: ");
+            scanf("%d", &pos);
+            first = inserirEmPosicao(first, t, pos);
+            break;
+        // case 6: // Inserir antes
+        //     printf("Temperatura: ");
+        //     scanf("%f", &t);
+        //     printf("Inserir antes: ");
+        //     scanf("%f", &taux);
+        //     first = inserirAntes(first, t, taux);
+        //     break;
+        // case 7: // Inserir Depois
+        //     printf("Temperatura: ");
+        //     scanf("%f", &t);
+        //     printf("Inserir depois: ");
+        //     scanf("%f", &taux);
+        //     first = inserirDepois(first, t, taux);
+        //     break;
         }
     }
     freeAll(first);
     return 0;
 }
-
-// Inserção em qualquer posição
-// Estrategia?
-// 1- Informar posicao "fisica"
-//  - Precisa infomar a posicao
-//      CUIDADOS: Posicao fora da lista -> ULTIMO
-// 2- Antes ou depois de um valor 
-        // CUIDADOS:
-        //     - Antes do primeiro
-        //     - Depois do ultimo
