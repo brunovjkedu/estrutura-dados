@@ -134,3 +134,13 @@ int main()
     freeAll(first);
     return 0;
 }
+
+// Inserção em qualquer posição
+// Estrategia?
+// 1- Informar posicao "fisica"
+//  - Precisa infomar a posicao
+//      CUIDADOS: Posicao fora da lista -> ULTIMO
+// 2- Antes ou depois de um valor 
+        // CUIDADOS:
+        //     - Antes do primeiro
+        //     - Depois do ultimo
